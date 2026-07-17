@@ -1,12 +1,22 @@
 {
-  "lastUpdated": "2026-07-16T03:12:04.986Z",
+  "lastUpdated": "2026-07-17T03:15:02.412Z",
   "totalSources": 2,
   "sources": [
     {
       "source": "阮一峰的网络日志",
       "url": "http://www.ruanyifeng.com/blog/atom.xml",
-      "lastUpdated": "2026-07-16T03:12:04.041Z",
+      "lastUpdated": "2026-07-17T03:15:01.800Z",
       "items": [
+        {
+          "title": "科技爱好者周刊（第 404 期）：你需要知道的 AI 内存知识",
+          "link": "http://www.ruanyifeng.com/blog/2026/07/weekly-issue-404.html",
+          "pubDate": "2026-07-16T23:51:19.000Z",
+          "content": "\n        <p>这里记录每周值得分享的科技内容，周五发布。</p>\n\n        <p>本杂志<a href=\"https://github.com/ruanyf/weekly\">开源</a>，欢迎<a href=\"https://github.com/ruanyf/weekly/issues\">投稿</a>。另有<a href=\"https://github.com/ruanyf/weekly/issues/10517\">《谁在招人》</a>服务，发布程序员招聘信息。合作请<a href=\"mailto:yifeng.ruan@gmail.com\">邮件联系</a>（yifeng.ruan@gmail.com）。</p>\n\n<h2>封面图</h2>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071603.webp\" alt=\"\" title=\"\" /></p>\n\n<p>上海某商场正在举办的\"海绵宝宝\"展览。（<a href=\"https://m.thepaper.cn/newsDetail_forward_33450995\">via</a>）</p>\n\n<h2>你需要知道的 AI 内存知识</h2>\n\n<p>自己在家运行 AI 模型，可以选择两种硬件。</p>\n\n<p>一种是独立显卡，目前最顶级的消费级显卡是英伟达的 RTX 5090，带有 32GB 显存，售价3万元人民币左右。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071511.webp\" alt=\"\" title=\"\" /></p>\n\n<p>另一种是采用板载芯片组（CPU + 板载显卡 + 板载内存）的家用电脑，比如采用 AMD 公司 Strix Halo 芯片组（具体型号 Ryzen AI Max+ 395）的迷你电脑，自带 128GB 内存，售价2万元人民币左右。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071512.webp\" alt=\"\" title=\"\" /></p>\n\n<p>我问大家，哪种硬件更好？</p>\n\n<p>大部分人可能不假思索，就会选择独立显卡，毕竟独立显卡的算力远大于板载芯片组。</p>\n\n<p>根据我查到的资料，下面是两者的单精度32位浮点数算力（FP32）。</p>\n\n<blockquote>\n  <ul>\n<li>独立显卡（RTX 5090）：<strong>104.8 TFLOPS</strong></li>\n<li>板载芯片组（AMD Ryzen AI Max+ 395）：<strong>14.8 TFLOPS</strong></li>\n</ul>\n</blockquote>\n\n<p>可以看到，独立显卡的算力，足足是板载芯片组的7倍。如果是更小位数的浮点数计算（比如 FP16 和 FP4），算力差距就更大了。</p>\n\n<p>但是，我告诉你，正确的答案其实是\"不确定\"。很多时候，板载芯片组的迷你 PC，才是更好的本地 AI 模型解决方案。</p>\n\n<p>原因很简单，大多数的 AI 模型（只要参数规模稍大），RTX 5090 根本运行不了。</p>\n\n<p>问题出在它的 32GB 显存实在太少了。一个 70B 参数的模型，如果每个参数使用4位精度，那么将所有参数的权重读入内存，大约需要 32.6GB 的内存，这超出了 RTX 5090 的显存大小，它根本跑不起来。</p>\n\n<p>相比之下，AMD 迷你电脑的板载内存有 128GB，载入模型毫无困难。<strong>板载芯片组的内存是显卡和 CPU 共用的，所以称为\"统一内存\"</strong>。它的好处是可以分出尽可能多的内存给单个处理器，所以能处理内存消耗量很大的 AI 模型。</p>\n\n<p>苹果的 M 系列芯片一直是这种\"统一内存\"架构，其他厂商现在也跟进了，AMD 的 Strix Halo、NVIDIA 的 DGX Spark、Intel 的 Core Ultra 和高通的 Snapdragon X 都采用这种架构。除了内存容量大，它的价格也比独立显卡低。</p>\n\n<p>读到这里，你可能会问，既然板载芯片组有这些优点，还有必要购买独立显卡吗？</p>\n\n<p>回答是，内存有两个指标，除了容量大小，还有一个指标\"内存带宽\"。<strong>板载芯片组的弱点，恰恰就是内存带宽。</strong></p>\n\n<p>所谓\"内存带宽\"，指的是内存向处理器传送数据的速度。虽然 RTX 5090 显存不多，但是内存带宽极大，达到了 1792GB/s，而 AMD 的内存带宽只有 256GB/s。</p>\n\n<p>AI 模型每生成一个 Token，需要处理器从内存中读取整个模型，进行计算。如果内存带宽是 256GB/s，那么 40GB 大小的模型，处理器一秒只能读取6次（256除以40），也就是说每秒只能生成6个 Token（这是理论值，实际可能还达不到）。这样的龟速，谁能忍受？</p>\n\n<p>即使是内存带宽最大的苹果 M3 Ultra 芯片，带宽为 819GB/s，每秒可以生成20个 Token，远不如 RTX 5090 的 1792GB/s。</p>\n\n<p>所以，内存大小和内存带宽，两者都是 AI 模型的瓶颈。这也是高带宽内存（HBM）价格涨疯了的原因。</p>\n\n<p>如果你选择板载芯片组的迷你电脑，就要做好心理准备，忍受非常慢的 Token 生成速度。</p>\n\n<p>好在为了节省计算量，出现了\"混合专家模型（MoE）\"这种架构，<strong>它计算 Token 时，不需要读取全部参数，只需要激活一部分参数即可</strong>。</p>\n\n<p>以 Qwen3-30B-A3B 模型为例，它包含 30B 个参数，但每次只激活 3B 个参数，因此每个 Token 需要读取的数据量不是 20GB，而是 2GB。那么在 AMD 迷你电脑上，每秒理论上可以生成100多个 Token，这样的速度就相当不错了。</p>\n\n<p>因此，如果你用\"统一内存\"模式的迷你电脑，就选用 MoE 模型吧。</p>\n\n<p>另外，迷你电脑还有一个很大的缺点，跟内存无关，而跟它的算力慢有关。</p>\n\n<p>我们知道，模型必须先处理用户的提示词，然后才能生成 Token。因为迷你电脑的算力慢，所以它处理提示词也很慢。</p>\n\n<p>根据<a href=\"https://vettedconsumer.com/unified-memory-explained-why-mini-pcs-can-run-70b-models-a-big-gpu-cant-and-where-they-slow-down/\">实际测算</a>，AMD 迷你电脑使用 70B 的模型，提示词处理速度是每秒95个 Token。那么，用户提交4000个 token 的一个文档，大约需要40秒才能处理完，然后才能输出第一个 Token。</p>\n\n<p>可以想象，一旦用户往上下文窗口塞入更多的内容，单单是处理提示词，就会变成几分钟到几十分钟。</p>\n\n<p>总之，现阶段想在本地电脑运行大模型，无论是独立显卡还是板载芯片组，都有缺陷。你最多只能运行一些中等规模的 MoE 模型，而且提示词不能很长。</p>\n\n<h2>布尔变量如何起名</h2>\n\n<p>传说中，编程有两大难题，一个是缓存失效，另一个是变量起名。</p>\n\n<p>其中，布尔变量尤其难起名。怎样才能贴切地表达，这个变量是表示\"真\"（true）和\"伪\"（false）的布尔值呢？</p>\n\n<p>我最近读到一篇文章<a href=\"https://thatamazingprogrammer.com/posts/stop-naming-your-variables-flag-the-art-of-boolean-prefixes/\">《布尔变量起名的艺术》</a>，提出使用四个前缀就能给布尔变量正确起名，我觉得很有启发。</p>\n\n<p>（1）<strong>is-</strong>：描述事物的状态，后面跟形容词，比如 isActive，isDeleted，isEmpty。</p>\n\n<p>（2）<strong>has-</strong>：描述事物的所有权或包含关系，后面跟名词，比如 hasAccess，hasChildren，hasValidationErrors。</p>\n\n<p>（3）<strong>can-</strong>：描述事物的能力或权限，比如 canEdit，canDelete，canRetry。</p>\n\n<p>（4）<strong>should-</strong>：描述事物的意图或逻辑，比如 shouldRetry，shouldCacheResponse。</p>\n\n<p>除了这四个前缀，起名还有另一条规则：永远不在布尔变量名中使用否定词。</p>\n\n<p>比如，不使用 isDisabled，而要用 <code>isEnabled = false</code>。</p>\n\n<h2>科技动态</h2>\n\n<p>1、<a href=\"https://openai.com/zh-Hans-CN/supply/co-lab/work-louder/\">OpenAI 键盘</a></p>\n\n<p>OpenAI 公司刚刚推出了一款便捷键盘，方便操作 AI 代理。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071601.webp\" alt=\"\" title=\"\" /></p>\n\n<p>键盘下方是一排快捷键，用于批准、否决、语音输入等操作。上方是一排 RGB 灯，表示 AI 代理目前的状态（思考、运行、等待、完成）。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071602.webp\" alt=\"\" title=\"\" /></p>\n\n<p>这东西售价230美元，看上去毫无新意，也未必比普通键盘方便。</p>\n\n<p>著名设计师乔纳森·艾维（Jony Ive）离开苹果公司后，现在负责 OpenAI 硬件设计。大家都盼望，他能拿出让人眼前一亮的智能硬件，但最先亮相的这个小键盘真是让人失望。</p>\n\n<p>2、<a href=\"https://www.cnsa.gov.cn/n6758823/n6758838/c10760422/content.html\">小行星 2016HO3</a></p>\n\n<p>天问二号探测器于2025年5月发射，经过约400天的飞行，终于到达了目标----小行星 2016HO3，并传回了照片。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071501.webp\" alt=\"\" title=\"\" /></p>\n\n<p>这个小行星长度在20米左右，只比半个标准篮球场大一点，形状不规则，并有尖角，这表明它应该是碰撞后的碎片，而不是熔岩冷却形成的。</p>\n\n<p>天问二号拍摄照片时，距离这个小行星20公里，下一步将按照计划，采集这个小行星的岩石样本，送回地球。</p>\n\n<p>这件事的难点在于，天问二号翼展达到15米，只比这个小行星小一点，采样时可能会改变小行星的轨道。</p>\n\n<p>3、<a href=\"https://www.merelkarhof.nl/work/wind-knitting-factory\">风力编织机</a></p>\n\n<p>一个荷兰设计师发明了家用的风力编织机，可以安装在阳台或楼顶。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202507/bg2025070405.webp\" alt=\"\" title=\"\" /></p>\n\n<p>风力带动叶片，在一个圆形的编制转盘上，将毛线编织成围巾。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202507/bg2025070406.webp\" alt=\"\" title=\"\" /></p>\n\n<p>风大的时候，编织速度非常快。它看上去是一个纯粹的机械装置，没有用到风力发电。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202507/bg2025070407.webp\" alt=\"\" title=\"\" /></p>\n\n<p>设计师的原意是向人们展示，在城市的楼宇里，也可以利用风力。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202507/bg2025070408.webp\" alt=\"\" title=\"\" /></p>\n\n<h2>文章</h2>\n\n<p>1、<a href=\"https://silviasapora.github.io/blog/ml-interviews.html\">机器学习博士求职指南</a>（英文）</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071509.webp\" alt=\"\" title=\"\" /></p>\n\n<p>作者是一个美国的机器学习博士毕业生，已经进入了 DeepMind 工作，本文是求职过程回顾和总结。</p>\n\n<p>另有一篇<a href=\"https://alisawuffles.github.io/blog/job-search/\">类似的文章</a>。</p>\n\n<p>2、<a href=\"https://hsm.tunnel53.net/article/dns-for-acme-challenges/\">使用 DNS 通过 ACME 认证</a>（英文）</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202509/bg2025092405.webp\" alt=\"\" title=\"\" /></p>\n\n<p>免费 HTTPS 证书需要通过 ACME 协议颁发。该协议要求认证域名所有权，一种认证方法就是使用 DNS，本文介绍这是怎么回事。</p>\n\n<p>3、<a href=\"https://www.andrewvittiglio.com/thoughts/go-killed-arenas\">Go 语言的困境</a>（英文）</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202512/bg2025120608.webp\" alt=\"\" title=\"\" /></p>\n\n<p>本文认为，Go 语言的处境尴尬，前途不看好。\"随着慢语言变得更快，难语言变得更容易，Go 所占据的中间地带将不复存在。\"</p>\n\n<p>4、<a href=\"https://lemire.me/blog/2025/01/11/javascript-hashing-speed-comparison-md5-versus-sha-256/\">JavaScript 哈希算法速度比较</a>（英文）</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202501/bg2025011918.webp\" alt=\"\" title=\"\" /></p>\n\n<p>MD5 和 SHA256 都是常用的哈希算法，本文探讨在 JavaScript 语言中，这两种哈希算法，谁的生成速度更快？答案可能跟你想的不一样。</p>\n\n<p>5、<a href=\"https://jvns.ca/blog/2024/10/31/ascii-control-characters/\">终端控制字符一览表</a>（英文）</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202411/bg2024110405.webp\" alt=\"\" title=\"\" /></p>\n\n<p>作者做了一张图（上图），列出命令行可以使用的控制符快捷键（比如快捷键 Ctrl-C 是终止当前命令），一共33个。</p>\n\n<p>6、<a href=\"https://longnow.org/ideas/richard-feynman-and-the-connection-machine/\">理查德·费曼加入我的创业公司</a>（英文）</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071605.webp\" alt=\"\" title=\"\" /></p>\n\n<p>作者回忆著名物理学家理查德·费曼，曾经加入他的创业公司，一起开发超级计算机，有很多有趣的内容。</p>\n\n<h2>工具</h2>\n\n<p>1、<a href=\"https://github.com/darrylmorley/whatcable\">WhatCable</a></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071510.webp\" alt=\"\" title=\"\" /></p>\n\n<p>macOS 的顶部菜单栏应用，可以显示当前插入电脑的 usb-c 电缆特征。</p>\n\n<p>2、<a href=\"https://amber-lang.com/\">amber</a></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071401.webp\" alt=\"\" title=\"\" /></p>\n\n<p>一种简化 Bash 语法的新语言，它的脚本可以编译成 Bash。</p>\n\n<p>3、 <a href=\"https://antjs.org\">Ant</a></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071402.webp\" alt=\"\" title=\"\" /></p>\n\n<p>一种轻量级的 JS/TS 语言运行时，好像是自己从头开始写的，二进制文件只有 8MB。</p>\n\n<p>4、<a href=\"https://github.com/ciddwd/overlay-translator\">屏译</a>（Screen Translator）</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071404.webp\" alt=\"\" title=\"\" /></p>\n\n<p>开源安卓应用，实时屏幕翻译工具。（<a href=\"https://github.com/ruanyf/weekly/issues/10701\">@ciddwd</a> 投稿）</p>\n\n<p>5、<a href=\"https://turboocr.com/\">TurboOCR</a></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071406.webp\" alt=\"\" title=\"\" /></p>\n\n<p>使用 GPU 进行高速文字识别（OCR）的工具。（<a href=\"https://github.com/ruanyf/weekly/issues/10706\">@nataell95</a> 投稿）</p>\n\n<p>另有一个纯本地的文字识别库 <a href=\"https://github.com/arcships/light-ocr\">light-ocr</a>，提供 JS/C++ API。（<a href=\"https://github.com/ruanyf/weekly/issues/10714\">@eric8810</a> 投稿）</p>\n\n<p>6、<a href=\"https://visprex.com/\">Visprex</a></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202411/bg2024111013.webp\" alt=\"\" title=\"\" /></p>\n\n<p>该网站可以上传 CSV 数据文件，自动生成可视化图形。</p>\n\n<p>7、<a href=\"https://www.loro.dev/\">Loro</a></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202311/bg2023111321.webp\" alt=\"\" title=\"\" /></p>\n\n<p>一个开源的 CRDT 的同步算法库，用来多人实时同步状态。</p>\n\n<p>8、<a href=\"https://github.com/LoredCast\">File Wizard</a></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202510/bg2025100202.webp\" alt=\"\" title=\"\" /></p>\n\n<p>一个自托管的、基于 Web 的常见文件格式转换服务，还支持图像 OCR、音频转文字。</p>\n\n<h2>AI 相关</h2>\n\n<p>1、<a href=\"https://github.com/oh-my-hf/ohmyhf\">Oh My HuggingFace</a></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071405.webp\" alt=\"\" title=\"\" /></p>\n\n<p>非官方的 Hugging Face 开源跨平台客户端，用来浏览和下载模型、数据集等。（<a href=\"https://github.com/ruanyf/weekly/issues/10705\">@fzlzjerry</a> 投稿）</p>\n\n<p>2、<a href=\"https://github.com/Europa2061/pi-auto-approval\">pi-auto-approval</a></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071403.webp\" alt=\"\" title=\"\" /></p>\n\n<p>编程代理 Pi agent 的插件，自动批准低风险的权限确认，高风险依然会交给用户确认。（<a href=\"https://github.com/ruanyf/weekly/issues/10669\">@Europa2061</a> 投稿）</p>\n\n<p>3、<a href=\"https://github.com/BuilderIO/gpt-crawler\">GPT Crawler</a></p>\n\n<p>这个工具将指定网站的内容，抓取成一个 JSON 文件，然后上传到 ChatGPT，从而生成该网站的聊天机器人，允许你跟该网站聊天。</p>\n\n<p>4、<a href=\"https://github.com/1rgs/tokenwiz\">Tokenwiz</a></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202311/bg2023111305.webp\" alt=\"\" title=\"\" /></p>\n\n<p>一个模仿 OpenAI 将输入文本进行词元分解（tokenization）的开源实现。</p>\n\n<h2>资源</h2>\n\n<p>1、<a href=\"https://gotoonion.site/\">Goto Onion</a></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071506.webp\" alt=\"\" title=\"\" /></p>\n\n<p>暗网 Tor 网站的网关，使得普通浏览器可以访问 Onion 网址。</p>\n\n<p>2、<a href=\"https://www.fadingmaize.com/\">Fading Maize</a></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071507.webp\" alt=\"\" title=\"\" /></p>\n\n<p>一个很有意思的网站，一支美国大学乐队在2001年录制了专辑，随后就解散了。</p>\n\n<p>现在，他们让 AI 将当年的录音改成2026年的风格。该网站就将两种录音同时放出来，让大家比较。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071508.webp\" alt=\"\" title=\"\" /></p>\n\n<p>音乐真是很神奇，20多年前的音乐，毫无时光的痕迹，吉他声仿佛还是昨天。</p>\n\n<p>3、<a href=\"https://www.jamisbuck.org/mazes/\">迷宫算法</a>（Maze Algorithms）</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202601/bg2026012505.webp\" alt=\"\" title=\"\" /></p>\n\n<p>这个网站收集各种迷宫生成算法。</p>\n\n<h2>图片</h2>\n\n<p>1、<a href=\"https://visitfaroeislands.com/en/plan-your-stay/getting-around/world-first-under-sea-roundabout\">海底环岛</a></p>\n\n<p>环岛一般都在交通繁忙的路口，但是在大西洋的法罗群岛，有全世界独一无二的海底环岛。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071502.webp\" alt=\"\" title=\"\" /></p>\n\n<p>上图是法罗群岛的海底隧道示意图，在黄圈处，隧道一分为二，通向两个不同的岛屿。这里就建了一个海底环岛。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071503.webp\" alt=\"\" title=\"\" /></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071504.webp\" alt=\"\" title=\"\" /></p>\n\n<p>为了引起司机的注意，政府请了艺术家，将其画成水母的形状。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202607/bg2026071505.webp\" alt=\"\" title=\"\" /></p>\n\n<h2>文摘</h2>\n\n<p>1、<a href=\"https://decrypt.co/357527/ai-save-time-instead-created-new-kind-burnout\">AI 本应节省时间，减少工作量</a></p>\n\n<p>人们本以为 AI 会节省时间，减少工作量，加州大学的一项调查发现，事实恰恰相反。AI 增加了工作量，让工作强度变大，使得人们产生职业倦怠。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202602/bg2026021615.webp\" alt=\"\" title=\"\" /></p>\n\n<p><strong>为什么 AI 不仅没有减少工作，反而增加了工作呢？</strong> 原因可能有下面几点。</p>\n\n<p><strong>（1）工作职责范围扩大</strong>。产品经理现在开始编写代码，研究人员开始维护服务器，人们的工作职责不再那么分明，而变得模糊不清。员工们开始处理职责范围之外的工作，AI 让这种转变变得切实可行。</p>\n\n<p>这产生了连锁反应。工程师们突然发现，自己需要审查、纠正和指导非程序员同事的代码，因为那些同事正在\"氛围编码\"（vibe coding）。</p>\n\n<p>在自己专业以外进行工作自动化的人，实际上是给其他人带来了更多的工作。</p>\n\n<p><strong>（2）工作/生活界限模糊化</strong>。AI 的对话式界面让工作变得轻松便捷，不再有面对空白页面的无助感，也没有令人望而生畏的学习曲线。</p>\n\n<p>因此，员工们开始在离开办公桌前（比如上厕所前）发送\"快速提示\"，让 AI 在他们离开期间处理一些琐事。许多人甚至在休息时间也输入提示词，让 AI 去跑。这些在非工作时间使用 AI 处理的工作累积起来，导致休息时间减少，工作时长大幅增加。</p>\n\n<p><strong>（3）多任务处理激增</strong>。由于 AI 给人一种错觉，任务可以在后台处理，因此员工被要求同时管理多个工作流程。</p>\n\n<p>这样做表面上可以提升生产力，但实际上往往转化为不断切换注意力以及更长的任务清单。</p>\n\n<p><strong>（4）以上因素的自我强化循环。</strong> AI 让事情变得更简单，于是员工们做了更多事情，导致更加依赖 AI 来简化这些事情。如此循环往复，最终导致倦怠。</p>\n\n<p>研究人员指出：\"一些参与者表示，虽然他们感觉工作效率更高了，但并没有感觉轻松，反而感觉比以前更忙了。\"</p>\n\n<p><strong>（5）解决方法</strong>。研究人员提出，为了解决 AI 带来的职业倦怠，公司应该制定有意识的对策，规范员工如何使用 AI。</p>\n\n<ol start='1'>\n<li>做出重要决定前，停一会手头的工作。</li>\n<li>安排工作顺序，以减少上下文切换。</li>\n<li>预留时间进行真正的人际交往。</li>\n</ol>\n\n<h2>言论</h2>\n\n<p>1、</p>\n\n<p>如果你是太阳，我就是黑洞。</p>\n\n<p>---- <a href=\"https://geohot.github.io//blog/jekyll/update/2026/05/03/punk-or-why-i-dont-stream.html\">史蒂芬·霍金</a></p>\n\n<p>2、</p>\n\n<p>AI 模型的世界就像一个城市，里面有五个企业总部区域，以及一个中国城。</p>\n\n<p>-- <a href=\"https://geohot.github.io//blog/jekyll/update/2026/05/03/punk-or-why-i-dont-stream.html\">《奇点越来越近了》</a></p>\n\n<p>3、</p>\n\n<p>AI 是一个完全的黑箱，这意味着所谓的\"AI 工程\"或\"提示工程\"完全是骗局，任何声称能够以某种巧妙的方式操控黑箱的说法都是虚假的。</p>\n\n<p>你无法探究 AI 的运行逻辑，它只是一种机器实现的\"相信我，兄弟\"。</p>\n\n<p>-- <a href=\"https://bytecode.news/posts/2026/07/user-submission-ai-is-a-bad-tool\">《AI 是一个糟糕的工具》</a></p>\n\n<p>4、</p>\n\n<p>我有一台面包机，它几乎包办一切：揉面、发酵、烘焙。我把原料倒进去，按下一个按钮，三个小时后面包就出炉了。</p>\n\n<p>嗯，三年里我大概只用过这台机器两次。相反，我每周都会去超市买一条包装好的预切片面包。</p>\n\n<p>这解释了为什么即使 AI 可以轻松生成代码，SaaS 公司仍远未走向衰落。</p>\n\n<p>-- <a href=\"https://www.joanwestenberg.com/p/the-bread-paradox-why-convenience\">《为什么便利总是胜出，以及为什么 SaaS 不会消亡》</a></p>\n\n<h2>往年回顾</h2>\n\n<p><a href=\"https://www.ruanyifeng.com/blog/2025/07/weekly-issue-357.html\">稳定币的博弈</a>（#357）</p>\n\n<p><a href=\"https://www.ruanyifeng.com/blog/2024/07/weekly-issue-307.html\">不要看重 Product Hunt</a>（#307）</p>\n\n<p><a href=\"https://www.ruanyifeng.com/blog/2023/06/weekly-issue-257.html\">黄仁勋的 Nvidia 故事</a>（#257）</p>\n\n<p><a href=\"https://www.ruanyifeng.com/blog/2022/05/weekly-issue-207.html\">汽车行业的顶峰可能过去了</a>（#207）</p>\n\n<p>（完）</p>\n\n        <div style=\"color:#556677;line-height:160%;padding:0.3em 0.5em;border:1px solid #d3d3d3;margin:1em;background-color:#AAD2F0;-moz-border-radius: 10px;-webkit-border-radius:10px;border-radius: 10px;\"><h3>文档信息</h3>\n<ul>\n<li>版权声明：自由转载-非商用-非衍生-保持署名（<a href=\"http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh\">创意共享3.0许可证</a>）</li>\n<li>发表日期： <abbr class=\"published\" title=\"2026-07-17T07:51:19+08:00\">2026年7月17日</abbr></li>\n\n</ul></div>        \n        <div style=\"color:#556677;line-height:160%;padding:0.3em 0.5em;margin:1em;-moz-border-radius: 10px;-webkit-border-radius:10px;border-radius: 10px;\"></div>\n    ",
+          "author": "阮一峰",
+          "categories": [],
+          "source": "阮一峰的网络日志",
+          "sourceUrl": "http://www.ruanyifeng.com/blog/atom.xml"
+        },
         {
           "title": "科技爱好者周刊（第 403 期）：为什么 Dropbox 不成功",
           "link": "http://www.ruanyifeng.com/blog/2026/07/weekly-issue-403.html",
@@ -26,25 +36,115 @@
           "categories": [],
           "source": "阮一峰的网络日志",
           "sourceUrl": "http://www.ruanyifeng.com/blog/atom.xml"
-        },
-        {
-          "title": "Dario Amodei：AI 开源是伪命题",
-          "link": "http://www.ruanyifeng.com/blog/2026/06/anthropic.html",
-          "pubDate": "2026-06-30T03:04:08.000Z",
-          "content": "\n        <p>下面是 Anthropic 公司创始人 Dario Amodei 的<a href=\"https://www.threads.com/@whaleagent/post/DaJx5pfkzmL\">言论</a>。</p>\n\n        <p>大家看看，是否认同他的说法，还是觉得这是混淆视听，胡说八道。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063002.webp\" alt=\"\" title=\"\" /></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063003.webp\" alt=\"\" title=\"\" /></p>\n\n<p>他说，AI 模型就算公开，你也看不到它的内部运作，所以业界不把它叫做\"开源\"（open source），而叫做\"开放权重\"（open weights）。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063004.webp\" alt=\"\" title=\"\" /></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063005.webp\" alt=\"\" title=\"\" /></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063006.webp\" alt=\"\" title=\"\" /></p>\n\n<p>传统的开源项目可以许多人一起加入开发，一起修改，汇集大家的智慧，项目越做越好。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063007.webp\" alt=\"\" title=\"\" /></p>\n\n<p>但是，开源 AI 模型不是这种模式，它只是公开了权重文件，你根本没法提交修改，参与它的开发。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063008.webp\" alt=\"\" title=\"\" /></p>\n\n<p>所以，他看到新模型，从来不问开不开源，这是无所谓的。他只问一句：它够不够好，在重要任务上有没有赢过我们。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063009.webp\" alt=\"\" title=\"\" /></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063010.webp\" alt=\"\" title=\"\" /></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063011.webp\" alt=\"\" title=\"\" /></p>\n\n<p>而且，开源模型不等于免费模型。模型那么大，你还是得花钱，让它在云端运行，让它跑推理（inference），还是得有人帮你调试，让它跑得足够快。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063012.webp\" alt=\"\" title=\"\" /></p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063013.webp\" alt=\"\" title=\"\" /></p>\n\n<p>与其纠结开不开源，不如盯住这是谁开发的模型，是否把你要做的事做得最好。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063014.webp\" alt=\"\" title=\"\" /></p>\n\n<p>以上就是 Dario Amodei 的原话。我觉得，纯粹是睁着眼瞎说。</p>\n\n<p>就算开源模型只是开放权重，但跟闭源模型能一样吗？不需要任何人许可，我就能在云端运行开源模型，所有对话、所有数据都是私密的，但我能自己运行 Claude 模型吗？</p>\n\n<p>再说，谁说看不到模型内部运作，DeepSeek 不是公开发表了<a href=\"https://eu.36kr.com/en/p/3401632759482502\">论文</a>，解释他们的模型运作吗？反倒是 Claude 模型是真正的黑箱。</p>\n\n<p>另外，我昨天收到了 Anthropic 公司邮件，通知我的账户已经被暂停使用，理由是我违反了他们的使用政策。</p>\n\n<p><img src=\"https://cdn.beekka.com/blogimg/asset/202606/bg2026063016.webp\" alt=\"\" title=\"\" /></p>\n\n<p>太可笑了，我的 Anthropic 账户是他们模型刚上线时，为了试用而通过第三国开通的（它禁止中国 IP 地址访问）。一共只使用了两次，就在网页简单提问，而且至少有三个月没用了。</p>\n\n<p>我对他们的服务根本没有一丝一毫的破坏，但是他们连我这种\"半闲置账户\"也要封，唯一理由就是我属于中国用户，不能有漏网之鱼。</p>\n\n<p>这根本不可能成功，只会有反作用。</p>\n\n<p>这么说吧，据我所知，迄今为止，人类历史上没有任何一种技术，能够保守住秘密，不发生扩散。远一点的<a href=\"https://www.thepaper.cn/newsDetail_forward_10900070\">中国丝绸</a>、<a href=\"https://zhuanlan.zhihu.com/p/281895895\">英国织布机</a>，近一点的<a href=\"https://www.sohu.com/a/520520453_120934258\">核技术</a>、<a href=\"https://en.wikipedia.org/wiki/Export_of_cryptography_from_the_United_States\">加密技术</a>，都是如此。我相信，长期来看，大模型技术、芯片技术也不会例外。</p>\n\n<p>Anthropic 搞这种赤裸裸的、歧视性的\"中国人不得入内\"政策，只会适得其反。他越封闭，就越会加速开源模型的发展，让自己陷入被开源模型四面包围的孤立境地。</p>\n\n<p>（完）</p>\n\n        <div style=\"color:#556677;line-height:160%;padding:0.3em 0.5em;border:1px solid #d3d3d3;margin:1em;background-color:#AAD2F0;-moz-border-radius: 10px;-webkit-border-radius:10px;border-radius: 10px;\"><h3>文档信息</h3>\n<ul>\n<li>版权声明：自由转载-非商用-非衍生-保持署名（<a href=\"http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh\">创意共享3.0许可证</a>）</li>\n<li>发表日期： <abbr class=\"published\" title=\"2026-06-30T11:04:08+08:00\">2026年6月30日</abbr></li>\n\n</ul></div>        \n        <div style=\"color:#556677;line-height:160%;padding:0.3em 0.5em;margin:1em;-moz-border-radius: 10px;-webkit-border-radius:10px;border-radius: 10px;\"></div>\n    ",
-          "author": "阮一峰",
-          "categories": [],
-          "source": "阮一峰的网络日志",
-          "sourceUrl": "http://www.ruanyifeng.com/blog/atom.xml"
         }
       ]
     },
     {
       "source": "王叨叨",
       "url": "https://wangdaodao.com/feed/atom/",
-      "error": "Status code 521",
-      "lastUpdated": "2026-07-16T03:12:04.986Z",
-      "items": []
+      "lastUpdated": "2026-07-17T03:15:02.412Z",
+      "items": [
+        {
+          "title": "无题",
+          "link": "https://wangdaodao.com/20260228/my-younger-brother.html",
+          "pubDate": "2026-02-28T13:03:00.000Z",
+          "content": "\n<p>最近一直没有心情心情更新，主要是又一个亲人的离开，从小玩到大的兄弟，突然说没就没了，很难接受。</p><p class=\"more\"><a href=\"https://wangdaodao.com/20260228/my-younger-brother.html\" title=\"无题\">[...]</a></p>\n",
+          "author": "王叨叨",
+          "categories": [],
+          "source": "王叨叨",
+          "sourceUrl": "https://wangdaodao.com/feed/atom/"
+        },
+        {
+          "title": "一些杂事",
+          "link": "https://wangdaodao.com/20260112/trivial-matters.html",
+          "pubDate": "2026-01-12T15:07:00.000Z",
+          "content": "\n<p>一转眼就到了2026年了，差不多再有一个月就要过年了。最近身边，也发生了一些杂事，有好事也有不好的事，让我自己也有了一些反思。</p><p class=\"more\"><a href=\"https://wangdaodao.com/20260112/trivial-matters.html\" title=\"一些杂事\">[...]</a></p>\n",
+          "author": "王叨叨",
+          "categories": [],
+          "source": "王叨叨",
+          "sourceUrl": "https://wangdaodao.com/feed/atom/"
+        },
+        {
+          "title": "关于孟鲁司特钠的不良反应",
+          "link": "https://wangdaodao.com/20260105/montelukast.html",
+          "pubDate": "2026-01-05T14:54:00.000Z",
+          "content": "\n<p>最近刷抖音，发现一些医生和家长都在说孟鲁司特钠、易坦静盐酸氨溴索口服溶液和西替利嗪这些儿童用药，都会导致口吃、多动、自杀等倾向。</p><p>早在2020年3月，美国 FDA 对孟鲁司特钠发布黑框警告，强调医护人员应意识到孟鲁司特钠可能带来严重神经/精神事件风险，包括抑郁、自残、自杀倾向。</p><p class=\"more\"><a href=\"https://wangdaodao.com/20260105/montelukast.html\" title=\"关于孟鲁司特钠的不良反应\">[...]</a></p>\n",
+          "author": "王叨叨",
+          "categories": [],
+          "source": "王叨叨",
+          "sourceUrl": "https://wangdaodao.com/feed/atom/"
+        },
+        {
+          "title": "开源网易云及QQ音乐播放插件",
+          "link": "https://wangdaodao.com/20251226/typecho-netease-qq-player.html",
+          "pubDate": "2025-12-26T05:25:00.000Z",
+          "content": "\n<p>之前一直用的是 Meting 插件来解决博客音乐播放的问题，不过发现作者很久都不再维护更新了，所以想造个轮子自己搞一个播放器试试。我这次并没有自己来解析音乐，因为现在网易云和QQ都有自己的分享链接，直接用官方的不是更稳定嘛……</p><p>再说一下为啥不用短代码这种形式，我感觉直接放一个链接是更方便的，后面就算是禁用了插件，也不会影响跳转到正常的官方链接上。目前除了高德地图这种的我现在用的是短代码，其他的例如豆瓣卡片都是使用的链接形式。</p><p>这次为啥没拆分成两个组件呢，因为这两个都是链接方式的，而且也有共同的设置，所以就整合到一起了，后面再增加播放器也走统一逻辑。</p><p class=\"more\"><a href=\"https://wangdaodao.com/20251226/typecho-netease-qq-player.html\" title=\"开源网易云及QQ音乐播放插件\">[...]</a></p>\n",
+          "author": "王叨叨",
+          "categories": [],
+          "source": "王叨叨",
+          "sourceUrl": "https://wangdaodao.com/feed/atom/"
+        },
+        {
+          "title": "开源Typecho抖音播放器插件",
+          "link": "https://wangdaodao.com/20251220/dou-yin-player.html",
+          "pubDate": "2025-12-20T08:24:00.000Z",
+          "content": "\n<p>前段时间，开源了一个<a href=\"https://wangdaodao.com/20251101/typecho-bilibili-player.html\">Bilibili播放器插件</a>，原理也是非常简单。这次看到抖音也可以视频分享，那就也做一个抖音的播放器插件吧。</p><p>原理非常简单，使用正则表达式匹配抖音的链接，然后替换成 iframe 播放器就可以了。</p><p>抖音自己会根据容器的宽度来判断移动端或者电脑端，跟了下代码，发现730px是他的临界值，所以样式也会基于这个宽带做适配。</p><p>使用的时候更简单了，根本不用短代码，直接把视频链接扔进去就可以了，这样一来即便是禁用了插件，也可以正常的跳转到视频地址。</p><p class=\"more\"><a href=\"https://wangdaodao.com/20251220/dou-yin-player.html\" title=\"开源Typecho抖音播放器插件\">[...]</a></p>\n",
+          "author": "王叨叨",
+          "categories": [],
+          "source": "王叨叨",
+          "sourceUrl": "https://wangdaodao.com/feed/atom/"
+        },
+        {
+          "title": "2025年终总结",
+          "link": "https://wangdaodao.com/20251214/2025-summary.html",
+          "pubDate": "2025-12-14T05:52:00.000Z",
+          "content": "\n<p>2025年还有半个月就要过去了，回头看看这一年，还真发生了不少事情。趁着周末有点时间，稍微总结一下，免的到了月底，没时间总结。</p><p class=\"more\"><a href=\"https://wangdaodao.com/20251214/2025-summary.html\" title=\"2025年终总结\">[...]</a></p>\n",
+          "author": "王叨叨",
+          "categories": [],
+          "source": "王叨叨",
+          "sourceUrl": "https://wangdaodao.com/feed/atom/"
+        },
+        {
+          "title": "Typecho博客开启EdgeOne",
+          "link": "https://wangdaodao.com/20251210/typecho-edge-one.html",
+          "pubDate": "2025-12-10T12:03:00.000Z",
+          "content": "\n<p>其实腾讯云的边缘安全加速平台 <strong>EdgeOne</strong> 应该10月份搞活动的时候就已经获取并激活了，但是一直不知道该怎么用。今天有点空闲，就拿起来配置一下。不过这方面我是个菜鸟，好多东西还不懂，只能边问 AI 变配置。如果有大佬知道如何配置，还望在留言中指点一二，感激不尽，因为域名也没有备案，所以只能选择全球加速了，我主机买的是 <a href=\"https://my.racknerd.com/aff.php?aff=13161\">RackNerd</a>，机房在洛杉矶，再怎么弄应该也会快一点点吧……</p><p>之前也看过一些博主，开启后又选择关闭了，我这现在开的也忐忑啊，先用上试试吧，不行了再说。目前启用后，发现内存有少量的下降，启用前内存平均在31%，启用后内存平均在26%。</p><p class=\"more\"><a href=\"https://wangdaodao.com/20251210/typecho-edge-one.html\" title=\"Typecho博客开启EdgeOne\">[...]</a></p>\n",
+          "author": "王叨叨",
+          "categories": [],
+          "source": "王叨叨",
+          "sourceUrl": "https://wangdaodao.com/feed/atom/"
+        },
+        {
+          "title": "发布一个Typecho AI文本润色插件",
+          "link": "https://wangdaodao.com/20251206/typecho-plugins-AI-text-polish.html",
+          "pubDate": "2025-12-06T11:44:00.000Z",
+          "content": "\n<p>现在AI已经融入到各行各业中，编码的时候都借助AI来辅助编程。那么，在写博客文章的时候，遇到语句不够流畅或表达不够专业的时候，能不能快速的借助AI帮我们对语句做一些润色呢？</p><p>为此，我开发了一个Typecho插件，该插件运用AI技术，能够对用户选定的文本进行智能化的润色与优化。不过使用前需要调用一些AI服务，所以先准备好了再说😃</p><p>插件目前开启售卖，价格定为 <strong>10</strong> 元，收入款全部捐给<a href=\"https://www.hhax.org/\">韩红基金会</a>，并在<a href=\"https://wangdaodao.com/about.html\">关于页面</a>公布捐款情况，购买请移步到文末，购买后请把订单截图通过邮件发送到我邮件 <strong><a href=\"mailto:hi@wangdaodao.com\">hi@wangdaodao.com</a></strong>，我会在当天处理邮件，把<strong>插件</strong>及<strong>捐款情况</strong>回复在邮件中。购买前如果有疑问，也可以发邮件与我沟通，避免引起误会。</p><p class=\"more\"><a href=\"https://wangdaodao.com/20251206/typecho-plugins-AI-text-polish.html\" title=\"发布一个Typecho AI文本润色插件\">[...]</a></p>\n",
+          "author": "王叨叨",
+          "categories": [],
+          "source": "王叨叨",
+          "sourceUrl": "https://wangdaodao.com/feed/atom/"
+        },
+        {
+          "title": "开源高德地图及规划路径短代码插件",
+          "link": "https://wangdaodao.com/20251203/typecho-plugin-amap.html",
+          "pubDate": "2025-12-03T05:22:00.000Z",
+          "content": "\n<p>继上次<a href=\"https://wangdaodao.com/20251122/typecho-track.html\">足迹插件</a>，这次开源两个插件，分别是 <strong>高德地图插件</strong> 和 <strong>高德地图路径规划插件</strong>，相对于足迹插件是一个简化版的，也希望大家多支持足迹插件?。</p><p class=\"more\"><a href=\"https://wangdaodao.com/20251203/typecho-plugin-amap.html\" title=\"开源高德地图及规划路径短代码插件\">[...]</a></p>\n",
+          "author": "王叨叨",
+          "categories": [],
+          "source": "王叨叨",
+          "sourceUrl": "https://wangdaodao.com/feed/atom/"
+        },
+        {
+          "title": "开始记账了",
+          "link": "https://wangdaodao.com/20251128/bookkeeping.html",
+          "pubDate": "2025-11-28T13:38:00.000Z",
+          "content": "\n<p>不知道大家有没有记账的习惯，我之前刚工作那会是有的，当时手机上记账软件也不多，看来看去用的随手记，还买了安卓的会员。前段时间又下载回来试了试，竟然又要收费了…</p><p class=\"more\"><a href=\"https://wangdaodao.com/20251128/bookkeeping.html\" title=\"开始记账了\">[...]</a></p>\n",
+          "author": "王叨叨",
+          "categories": [],
+          "source": "王叨叨",
+          "sourceUrl": "https://wangdaodao.com/feed/atom/"
+        }
+      ]
     }
   ]
 }
