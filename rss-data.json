@@ -1,11 +1,11 @@
 {
-  "lastUpdated": "2026-09-12T04:01:02.645Z",
+  "lastUpdated": "2026-09-13T04:11:43.390Z",
   "totalSources": 2,
   "sources": [
     {
       "source": "阮一峰的网络日志",
       "url": "http://www.ruanyifeng.com/blog/atom.xml",
-      "lastUpdated": "2026-09-12T04:01:00.173Z",
+      "lastUpdated": "2026-09-13T04:11:41.934Z",
       "items": [
         {
           "title": "科技爱好者周刊（第 412 期）：禁止 issue，只用 PR",
@@ -42,7 +42,7 @@
     {
       "source": "王叨叨",
       "url": "https://wangdaodao.com/feed/atom/",
-      "lastUpdated": "2026-09-12T04:01:02.645Z",
+      "lastUpdated": "2026-09-13T04:11:43.390Z",
       "items": [
         {
           "title": "无题",
