@@ -1,11 +1,11 @@
 {
-  "lastUpdated": "2026-09-30T04:58:16.075Z",
+  "lastUpdated": "2026-10-01T05:11:39.802Z",
   "totalSources": 2,
   "sources": [
     {
       "source": "阮一峰的网络日志",
       "url": "http://www.ruanyifeng.com/blog/atom.xml",
-      "lastUpdated": "2026-09-30T04:58:14.691Z",
+      "lastUpdated": "2026-10-01T05:11:38.383Z",
       "items": [
         {
           "title": "科技爱好者周刊（第 413 期）：再见了，React Native",
@@ -42,7 +42,7 @@
     {
       "source": "王叨叨",
       "url": "https://wangdaodao.com/feed/atom/",
-      "lastUpdated": "2026-09-30T04:58:16.074Z",
+      "lastUpdated": "2026-10-01T05:11:39.802Z",
       "items": [
         {
           "title": "无题",
